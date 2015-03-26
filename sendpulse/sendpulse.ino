@@ -24,7 +24,7 @@ void sendpulses(float freq, float numpulse, int pin, bool dir)
 {
   digitalWrite(8, HIGH); //assure enable set high
   digitalWrite(7, dir);//set direction
-  long time = (numpulse * 1000) / (freq * 1000) * 1000;//1000's added to minimize roundoff error due to division
+  long time = (numpulse * 10000) / (freq * 10000) * 10000;//10000's added to minimize roundoff error due to division
   //Serial.println(time);
   if (freq < 50.0)// tone does not work at low frequencies - switch to manual (the for loop) below 50Hz
   {
@@ -39,8 +39,8 @@ void sendpulses(float freq, float numpulse, int pin, bool dir)
   }
   else
   {
-    tone(pin, freq, time); //tone utilizes AVR timers which are capable of much higher frequencies that "Loop" can provide
-    delay(time); //even though tone has the 3rd parameter supplied - it seems to require a delay at the same time to wait until all pulses are sent
+    tone(pin, freq, time); //tone utilizes AVR timers which are capable of much higher frequencies than "Loop" can provide
+    delay(time); //even though tone has the 3rd parameter supplied - it seems to require a delay of the same time parameter to wait until all pulses are sent
     noTone(pin);//end tone
   }
 }
